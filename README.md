@@ -31,9 +31,5 @@ Notes:
 - This scaffold uses Taichi for GPU kernels and GUI. It is optimized for many particles using a uniform grid and Taichi parallel kernels.
 - The engine is modular; expand `physics/`, `gpu_kernels/`, `rendering/`, and `scene/` for advanced shaders and effects.
 
-See the code comments for details on physics and optimization choices.
-# GPU-Accelerated-Real-Time-Fluid-Simulation-
-GPU Accelerated Real Time Fluid Simulation using Smoothed Particle Hydrodynamics (SPH)
-- - - -
 
 
