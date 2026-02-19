@@ -1,6 +1,39 @@
+# GPU-Accelerated Real-Time Fluid Simulation Engine (Taichi SPH)
+
+This project is a modular, Taichi-based GPU-accelerated Smoothed Particle Hydrodynamics (SPH) engine designed for real-time, cinematic water simulation and interactive scenes.
+
+Features included in this scaffold:
+- GPU-accelerated SPH implementation using Taichi kernels
+- Uniform spatial hashing grid for near O(n) neighbor search
+- Pressure, viscosity, surface tension, buoyancy (temperature-dependent)
+- Temperature field and heat diffusion coupling to buoyancy
+- Simple splash/droplet spawning system
+- Taichi-based rendering (metaball-like splatting) and UI sliders
+- Example scene with bridge, pebbles, and interactive controls
+
+This is an extensible foundation implementing the required physics and optimization patterns. See `requirements.txt` for dependencies and `main.py` to run.
+
+Run:
+
+1. Create a Python environment and install requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Run the demo:
+
+```bash
+python main.py
+```
+
+Notes:
+- This scaffold uses Taichi for GPU kernels and GUI. It is optimized for many particles using a uniform grid and Taichi parallel kernels.
+- The engine is modular; expand `physics/`, `gpu_kernels/`, `rendering/`, and `scene/` for advanced shaders and effects.
+
+See the code comments for details on physics and optimization choices.
 # GPU-Accelerated-Real-Time-Fluid-Simulation-
 GPU Accelerated Real Time Fluid Simulation using Smoothed Particle Hydrodynamics (SPH)
 - - - -
-This project focuses on the development of a high performance, real time fluid simulation system utilizing Smoothed Particle Hydrodynamics (SPH) accelerated via GPGPU programming. Traditional CPU based fluid solvers often face bottlenecks when handling the massive computational load required for realistic interaction, particularly the O(n^2) complexity of neighbor searching. To overcome these limitations, this study leverages OpenGL Compute Shaders to parallelize the Navier Stokes equations, offloading physics calculations including density, pressure, and viscosity directly to the GPU. Central to the system’s efficiency is a Spatial Hash Grid optimization, which reduces the search complexity to O(n) by partitioning 3D space into localized cells. Developed in C++ and OpenGL 4.6, the resulting application provides a robust framework for interactive virtual environments, enabling users to manipulate fluid properties and observe dynamic collisions in real time.
 
 
