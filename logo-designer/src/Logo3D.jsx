@@ -17,7 +17,7 @@
 
 import { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Environment } from '@react-three/drei';
+import { OrbitControls, Float, Environment, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 // ─── Animated shape mesh ──────────────────────────────────────
@@ -129,9 +129,28 @@ function OrbitParticles({ palette, count = 12 }) {
     );
 }
 
+// ─── Logo text (brand name / initials) ─────────────────────────
+function LogoText({ config }) {
+    const { name, initials, layout, palette } = config;
+    const displayText = layout === 'monogram' ? initials : name?.toUpperCase?.() || name || 'LOGO';
+
+    return (
+        <Text
+            position={[0, 0, 0.5]}
+            fontSize={0.22}
+            maxWidth={1.8}
+            anchorX="center"
+            anchorY="middle"
+            color={palette.primary}
+        >
+            {displayText}
+        </Text>
+    );
+}
+
 // ─── Scene ────────────────────────────────────────────────────
-function Scene({ config }) {
-    const { palette, shape, effect, name } = config;
+function Scene({ config, compact = false }) {
+    const { palette, shape, effect } = config;
 
     // CG: Three-point lighting setup — key / fill / rim
     return (
@@ -143,14 +162,17 @@ function Scene({ config }) {
             <pointLight position={[-4, -3, -2]} intensity={1.5} color={palette.secondary} />
             <pointLight position={[0, 5, -4]} intensity={1} color={palette.accent} />
 
-            {/* CG: HDRI Environment mapping — reflection/IBL */}
-            <Environment preset="city" />
+            {/* CG: HDRI Environment mapping — reflection/IBL (skip in compact to reduce flicker) */}
+            {!compact && <Environment preset="city" />}
 
-            {/* CG: Floating animation — vertical sine-wave translation */}
-            <Float speed={2} rotationIntensity={0.1} floatIntensity={0.4}>
+            {/* CG: Floating animation — reduced in compact mode to prevent flickering */}
+            <Float speed={compact ? 1 : 2} rotationIntensity={compact ? 0 : 0.1} floatIntensity={compact ? 0 : 0.4}>
                 <ShapeMesh shape={shape} palette={palette} effect={effect} />
                 <AccentRing palette={palette} />
                 <OrbitParticles palette={palette} />
+                <Suspense fallback={null}>
+                    <LogoText config={config} />
+                </Suspense>
             </Float>
 
             {/* CG: OrbitControls — quaternion-based arcball */}
@@ -166,24 +188,26 @@ function Scene({ config }) {
 }
 
 // ─── React Component ──────────────────────────────────────────
-export default function Logo3D({ config }) {
+export default function Logo3D({ config, compact = false }) {
     if (!config) return null;
 
     return (
         // CG: PerspectiveCamera — frustum culling, FOV, aspect ratio
         <Canvas
             camera={{ position: [0, 0, 4.5], fov: 50, near: 0.1, far: 100 }}
-            shadows
+            shadows={!compact}
+            dpr={compact ? [1, 1.5] : undefined}
             gl={{
                 antialias: true,
-                // CG: sRGB output encoding for correct linear → gamma colour conversion
+                alpha: false,
                 outputColorSpace: THREE.SRGBColorSpace,
                 toneMapping: THREE.ACESFilmicToneMapping,
                 toneMappingExposure: 1.2,
+                powerPreference: compact ? 'low-power' : 'high-performance',
             }}
         >
             <Suspense fallback={null}>
-                <Scene config={config} />
+                <Scene config={config} compact={compact} />
             </Suspense>
         </Canvas>
     );

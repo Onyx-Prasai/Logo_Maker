@@ -58,11 +58,11 @@ export default function FilterPanel({ filters, onApply, count, onCountChange, us
                         <span className="count-label">{count} logos</span>
                     </div>
 
-                    {/* 3D toggle */}
+                    {/* 3D toggle — 3D only in full-screen preview (prevents WebGL Context Lost) */}
                     <div className="filter-group">
-                        <span className="filter-label">RenderMode</span>
+                        <span className="filter-label">Preview Mode</span>
                         <div className="toggle-row" onClick={onToggle3D} id="toggle-3d-mode">
-                            <span>{use3D ? '3D Interactive' : '2D Flat'}</span>
+                            <span>{use3D ? '3D in Preview' : '2D in Preview'}</span>
                             <div className={`toggle${use3D ? ' on' : ''}`} />
                         </div>
                     </div>
