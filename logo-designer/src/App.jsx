@@ -109,7 +109,7 @@ export default function App() {
       setHasGenerated(true);
     } catch (err) {
       console.error(err);
-      showToast('Could not reach server — is it running on port 5001?', '✕');
+      showToast('Could not reach API — check your connection.', '✕');
     } finally {
       setLoading(false);
     }
