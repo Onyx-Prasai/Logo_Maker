@@ -1,0 +1,7 @@
+{
+  "name": "logo-maker-deploy",
+  "private": true,
+  "scripts": {
+    "build": "cd logo-designer && npm install && npm run build"
+  }
+}

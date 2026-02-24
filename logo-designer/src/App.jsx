@@ -144,7 +144,6 @@ export default function App() {
 
       {/* ─── Hero ───────────────────────────────────────────── */}
       <section className="hero" aria-labelledby="hero-heading">
-        <p className="hero-tag">Canvas API · Three.js · Node.js</p>
         <h1 id="hero-heading">
           Design Your<br /><span>Perfect Logo</span>
         </h1>
